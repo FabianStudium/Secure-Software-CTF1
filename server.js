@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./database');
+const sanitizeInput = require('./utils/sanitize')
 const app = express();
 const port = 3000;
 
@@ -19,9 +20,19 @@ app.post('/register', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
+    const { sanitizedEmail, errorMessages: emailErrors } = sanitizeInput(email);
+    const { sanitizedPassword, errorMessages: passwordErrors } = sanitizeInput(password);
+  
+    // Handle error messages
+    if (emailErrors.length > 0 || passwordErrors.length > 0) {
+      return res.status(400).send({
+        message: 'Input contains disallowed characters or patterns',
+        emailErrors,
+        passwordErrors
+      });
+    }
 
-    // vulnerbale sql injection
-    const query = `SELECT * FROM users WHERE email = '${email}' AND password = '${password}'`;
+    const query = `SELECT * FROM users WHERE email = '${sanitizedEmail}' AND password = '${sanitizedPassword}'`;
     db.get(query, [], (err, row) => {
         if (err) {
             res.status(400).send('Error in login');
