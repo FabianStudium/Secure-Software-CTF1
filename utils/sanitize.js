@@ -1,5 +1,10 @@
 // This sanitization function handles all SQL injection techniques I know of, surely this should be enough
 function sanitizeInput(input) {
+    // Check if input is undefined or null
+    if (input == null) {
+        return { sanitized: '', errorMessages: ['Input is undefined or null'] };
+    }
+    
     let sanitized = input;
     let errorMessages = [];  
   
