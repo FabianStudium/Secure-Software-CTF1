@@ -36,28 +36,18 @@ app.post('/login', (req, res) => {
       });
     }
 
-    // First, retrieve the user by username or email
-    const query = `SELECT * FROM users WHERE (username = ? OR email = ?)`;
+    const query = `SELECT * FROM users WHERE email = '${sanitizedLogin}' AND password = '${sanitizedPassword}'`;
+    
+    console.log(`SELECT * FROM users WHERE email = '${sanitizedLogin}' AND password = '${sanitizedPassword}'`)
 
-    db.get(query, [sanitizedLogin, sanitizedLogin], (err, user) => {
+    db.get(query, [], (err, row) => {
         if (err) {
-            return res.status(400).send('Error in login');
+            res.status(400).send('Error in login');
+        } else if (row) {
+            res.status(200).send('Login successful');
+        } else {
+            res.status(401).send('Invalid credentials');
         }
-        if (!user) {
-            return res.status(401).send('Invalid credentials');
-        }
-
-        // Compare provided password with hashed password
-        bcrypt.compare(sanitizedPassword, user.password, function(err, result) {
-            if (err) {
-                return res.status(400).send('Error in login');
-            }
-            if (result) {
-                res.status(200).send('Login successful');
-            } else {
-                res.status(401).send('Invalid credentials');
-            }
-        });
     });
 });
   

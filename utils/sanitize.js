@@ -9,7 +9,7 @@ function sanitizeInput(input) {
     let errorMessages = [];  
   
     // Surely by eliminating single quotes I catch all injections.
-    sanitized = sanitized.replace(/'/g, "''");
+    // sanitized = sanitized.replace(/'/g, "''");
   
     // Remove all SQL injection patterns I know of
     const patterns = [
