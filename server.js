@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const bcrypt = require('bcrypt');
 
 const db = require('./database');
@@ -9,6 +10,7 @@ const port = 3000;
 const saltRounds = 10; // Number of salt rounds for bcrypt
 
 app.use(express.json());
+app.use(cors());
 
 app.post('/register', (req, res) => {
     const { username, password, email } = req.body;
@@ -42,7 +44,7 @@ app.post('/login', (req, res) => {
         if (err) {
             res.status(400).send('Error in login');
         } else if (row) {
-            res.status(200).send('Login successful');
+            res.status(200).send('Login successfull.');
         } else {
             res.status(401).send('Invalid credentials');
         }

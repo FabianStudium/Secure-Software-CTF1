@@ -30,16 +30,11 @@ db.run(`CREATE TABLE users (
     ];
 
     dummyUsers.forEach(user => {
-        bcrypt.hash(user.password, saltRounds, function(err, hash) {
+        db.run(`INSERT INTO users (username, password, email) VALUES (?, ?, ?)`, [user.username, user.password, user.email], function(err) {
             if (err) {
                 return console.error(err.message);
             }
-            db.run(`INSERT INTO users (username, password, email) VALUES (?, ?, ?)`, [user.username, hash, user.email], function(err) {
-                if (err) {
-                    return console.error(err.message);
-                }
-                console.log(`Inserted dummy user with ID: ${this.lastID}`);
-            });
+            console.log(`Inserted dummy user with ID: ${this.lastID}`);
         });
     });
 });
