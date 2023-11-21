@@ -36,11 +36,9 @@ app.post('/login', (req, res) => {
       });
     }
 
-    const query = `SELECT * FROM users WHERE email = '${sanitizedLogin}' AND password = '${sanitizedPassword}'`;
+    const query = `SELECT * FROM users WHERE (username = ? OR email = ?) AND password = ?`;
     
-    console.log(`SELECT * FROM users WHERE email = '${sanitizedLogin}' AND password = '${sanitizedPassword}'`)
-
-    db.get(query, [], (err, row) => {
+    db.get(query, [sanitizedLogin, sanitizedLogin, sanitizedPassword], (err, row) => {
         if (err) {
             res.status(400).send('Error in login');
         } else if (row) {
