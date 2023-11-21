@@ -4,7 +4,7 @@ function sanitizeInput(input) {
     if (input == null) {
         return { sanitized: '', errorMessages: ['Input is undefined or null'] };
     }
-    
+
     let sanitized = input;
     let errorMessages = [];  
   
