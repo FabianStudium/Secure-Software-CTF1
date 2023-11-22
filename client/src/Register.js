@@ -11,6 +11,7 @@ function Register() {
     try {
       const response = await axios.post('http://localhost:3000/register', { username, password, email });
       console.log(response.data);
+      window.location.href = '/home';
       // Handle response or redirect
     } catch (error) {
       console.error('Registration failed:', error);
