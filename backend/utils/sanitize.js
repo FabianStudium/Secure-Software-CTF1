@@ -12,10 +12,16 @@ function sanitizeInput(input) {
     // sanitized = sanitized.replace(/'/g, "''");
   
     // Remove all SQL injection patterns I know of
+    // const patterns = [
+    //     /' OR ''='/gi,  // Matches ' OR ''='
+    //     /' OR \d+=''/gi, // Matches ' OR [number]=''
+    //     /' OR '.*'='.*'/gi, // Matches ' OR '[any_string]'='[any_string]'
+    // ];
     const patterns = [
         /' OR ''='/gi,  // Matches ' OR ''='
         /' OR \d+=''/gi, // Matches ' OR [number]=''
-        /' OR '.*'='.*'/gi, // Matches ' OR '[any_string]'='[any_string]'
+        /' OR '.*?'='.*?'/gi, // Matches ' OR '[any_string]'='[any_string]', using non-greedy matching
+        /' OR '[^']*'='[^']*'/gi, // Matches ' OR '[any_characters_except_single_quote]'='[any_characters_except_single_quote]'
     ];
   
     patterns.forEach(pattern => {

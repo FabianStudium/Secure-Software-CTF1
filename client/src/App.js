@@ -1,24 +1,28 @@
 // import logo from './logo.svg';
-import './App.css';
-
-import React from 'react';
+import React, { useState } from 'react';
 import Register from './Register';
 import Login from './Login';
+import Home from './Home';
+import AdminPanel from './AdminPanel';
 
 function App() {
-  const [showLogin, setShowLogin] = React.useState(true);
-
-  const toggleForm = () => {
-    setShowLogin(!showLogin);
-  };
+  const [currentPage, setCurrentPage] = useState('home');
+  const isAdmin = localStorage.getItem('username') === 'AliceAdminAccount';
 
   return (
     <div>
-      <h1>Welcome to the Vulnerable App</h1>
-      {showLogin ? <Login /> : <Register />}
-      <button onClick={toggleForm}>
-        {showLogin ? 'Register' : 'Login'}
-      </button>
+      <nav>
+        <button onClick={() => setCurrentPage('home')}>Home</button>
+        <button onClick={() => setCurrentPage('register')}>Register</button>
+        <button onClick={() => setCurrentPage('login')}>Login</button>
+        <button onClick={() => setCurrentPage('admin')}>Admin Panel</button>
+      </nav>
+
+      {currentPage === 'home' && <Home />}
+      {currentPage === 'register' && <Register />}
+      {currentPage === 'login' && <Login />}
+      {currentPage === 'admin' && isAdmin && <AdminPanel />}
+      {currentPage === 'admin' && !isAdmin && <p>Access Denied</p>}
     </div>
   );
 }

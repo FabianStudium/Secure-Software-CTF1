@@ -24,7 +24,7 @@ db.run(`CREATE TABLE users (
 
     // Insert dummy users
     const dummyUsers = [
-        { username: 'Alice', password: '9Ey?b#HXek&CT@q', email: 'alice@fh-campus.com' },
+        { username: 'Alice', password: '9Ey?b#HXek&CT@q', email: 'alice@fh-campus.com'},
         { username: 'Bob', password: 'x5LGJLfyKo)HeML', email: 'bob@fh-campus.com' },
         { username: 'AliceAdminAccount', password: '7PEs!E?A)rsHxog', email: 'alice@admin.fh-campus.com' }
     ];
