@@ -2,12 +2,14 @@
 import React, { useState } from 'react';
 import Register from './Register';
 import Login from './Login';
+import Logout from './Logout';
 import Home from './Home';
 import AdminPanel from './AdminPanel';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
-  const isAdmin = localStorage.getItem('username') === 'AliceAdminAccount';
+  // const isAdmin = localStorage.getItem('username') === 'AliceAdminAccount';
+  const isAdmin = localStorage.getItem('username') === 'Admin';
 
   return (
     <div>
@@ -15,12 +17,14 @@ function App() {
         <button onClick={() => setCurrentPage('home')}>Home</button>
         <button onClick={() => setCurrentPage('register')}>Register</button>
         <button onClick={() => setCurrentPage('login')}>Login</button>
+        <button onClick={() => setCurrentPage('logout')}>Logout</button>
         <button onClick={() => setCurrentPage('admin')}>Admin Panel</button>
       </nav>
 
       {currentPage === 'home' && <Home />}
       {currentPage === 'register' && <Register />}
       {currentPage === 'login' && <Login />}
+      {currentPage === 'logout' && <Logout />}
       {currentPage === 'admin' && isAdmin && <AdminPanel />}
       {currentPage === 'admin' && !isAdmin && <p>Access Denied</p>}
     </div>
