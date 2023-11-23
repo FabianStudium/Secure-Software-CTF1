@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 function Logout() {
-    // axios.post('http://backend:3000/logout')
     axios.post('http://localhost:3000/logout')
         .then(response => {
             console.log(response.data.message);

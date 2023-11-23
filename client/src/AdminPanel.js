@@ -7,7 +7,6 @@ function AdminPanel() {
 	useEffect(() => {
 		const fetchUsers = async () => {
 		try {
-			// const response = await axios.get('http://backend:3000/users'); // Adjust URL as needed
 			const response = await axios.get('http://localhost:3000/users'); // Adjust URL as needed
 			setUsers(response.data);
 		} catch (error) {
@@ -20,7 +19,6 @@ function AdminPanel() {
 
 	const handleDelete = async (userId) => {
 		try {
-		//   await axios.delete(`http://backend:3000/users/${userId}`); // Adjust URL as needed
 		  await axios.delete(`http://localhost:3000/users/${userId}`); // Adjust URL as needed
 		  setUsers(users.filter(user => user.id !== userId));
 		} catch (error) {

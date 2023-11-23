@@ -7,4 +7,4 @@ services:
   frontend:
     build: ./client
     ports:
-      - "3001:3001"
+      - "3001:80"
