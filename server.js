@@ -151,6 +151,40 @@ app.post('/logout', (req, res) => {
     res.status(200).send({ message: 'Logout successful.' });
 });
 
+app.get('/users', (req, res) => {
+    /* 
+        TODO for Developer: Check if user is admin!
+    */
+
+    const query = 'SELECT id, username, email FROM users';
+
+    db.all(query, [], (err, rows) => {
+        if (err) {
+            res.status(500).send({ message: 'Error fetching users', error: err.message });
+        } else {
+            res.status(200).json(rows);
+        }
+    });
+});
+
+app.delete('/users/:id', (req, res) => {
+    /* 
+        TODO for Developer: Check if user is admin!
+    */
+
+    const { id } = req.params;
+    const query = 'DELETE FROM users WHERE id = ?';
+
+    db.run(query, [id], (err) => {
+        if (err) {
+            res.status(500).send({ message: 'Error deleting user', error: err.message });
+        } else {
+            res.status(200).send({ message: 'User deleted successfully' });
+        }
+    });
+});
+
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
