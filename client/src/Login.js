@@ -24,7 +24,6 @@ function Login() {
 			if (error.response) {
 				// Set the error message from the server
 				console.log("2")
-				console.log(error.response.data)
 				setErrorMessage(error.response.data.message);
 			} else {
 				// Set a generic error message

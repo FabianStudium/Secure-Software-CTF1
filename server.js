@@ -12,6 +12,7 @@ const saltRounds = 10; // Number of salt rounds for bcrypt
 // CORS configuration
 const corsOptions = {
     origin: 'http://localhost:3001', // or your frontend's origin
+    origin: 'http://127.0.0.1:3001', // or your frontend's origin
     optionsSuccessStatus: 200
 };
 
@@ -44,11 +45,21 @@ app.post('/login', (req, res) => {
     const { sanitized: sanitizedPassword, errorMessages: passwordErrors } = sanitizeInput(password);
   
     // Handle error messages
-    if (loginErrors.length > 0 || passwordErrors.length > 0) {
+    if (loginErrors.length > 0) {
         return res.status(400).send({
-            message: 'Input contains disallowed characters or patterns',
+            message: `Input contains disallowed characters or patterns.${loginErrors}.`,
             errors: {
                 login: loginErrors,
+                // password: passwordErrors
+            }
+        });
+    }
+    
+    if (passwordErrors.length > 0) {
+        return res.status(400).send({
+            message: `Input contains disallowed characters or patterns.${passwordErrors}.`,
+            errors: {
+                // login: loginErrors,
                 password: passwordErrors
             }
         });
@@ -91,60 +102,6 @@ app.post('/login', (req, res) => {
         }
     });
 });
-
-    /*
-    // const query = `SELECT * FROM users WHERE username = '${sanitizedUsername}' AND password = '${sanitizedPassword}' OR email = '${sanitizedEmail}' AND password = '${sanitizedPassword}';`;
-    const query = `SELECT * FROM users WHERE username = '${sanitizedLogin}' AND (password = '${sanitizedPassword}') OR email = '${sanitizedLogin}' AND (password = '${sanitizedPassword}');`;
-
-    db.get(query, [], (err, row) => {
-        if (err) {
-            res.status(400).send('Error in login');
-        } else if (row) {
-            res.status(200).send({message: 'Login successfull.', username: row.username });
-            // Reset failed_attempts to 0
-            db.run("UPDATE users SET failed_attempts = 0 WHERE id = ?", [row.id]);
-        } else {
-            // Increment failed_attempts
-            let newAttempts = (row.failed_attempts || 0) + 1;
-            db.run("UPDATE users SET failed_attempts = ? WHERE id = ?", [newAttempts, row.id]);
-            
-            if (newAttempts >= 5) {
-                // Lock account and send error message
-                res.status(401).send('Account locked. Please contact admin at alice@admin.fh-campus.com');
-            } else {
-                // Send regular error message
-                res.status(401).send('Invalid credentials');
-            }        
-        }
-    });
-    */
-
-    // const userCheckQuery = `SELECT * FROM users WHERE username = '${sanitizedUsername}' OR email = '${sanitizedEmail}'`;
-    
-
-    // db.get(userCheckQuery, [], (err, user) => {
-    //     if (err) {
-    //         return res.status(400).send('Error in login');
-    //     }
-    //     if (!user) {
-    //         return res.status(401).send('Invalid credentials');
-    //     }
-
-    //     // If user exists, proceed to password verification
-    //     const passwordCheckQuery = `SELECT * FROM users WHERE id = ${user.id} AND password = '${sanitizedPassword}'`;
-
-    //     db.get(passwordCheckQuery, [], (err, validUser) => {
-    //         if (err) {
-    //             return res.status(400).send('Error in login');
-    //         }
-    //         if (validUser) {
-    //             res.status(200).send({message: 'Login successful.', username: validUser.username });
-    //         } else {
-    //             res.status(401).send('Invalid credentials');
-    //         }
-    //     });
-    // });
-// });
 
 app.post('/logout', (req, res) => {  
     // Since the username is stored on the client-side, the server doesn't need to do much here. Just send a success response.

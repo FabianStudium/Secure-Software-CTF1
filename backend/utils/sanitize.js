@@ -7,20 +7,13 @@ function sanitizeInput(input) {
 
     let sanitized = input;
     let errorMessages = [];  
-  
-    // Surely by eliminating single quotes I catch all injections.
-    // sanitized = sanitized.replace(/'/g, "''");
-  
+    
     // Remove all SQL injection patterns I know of
-    // const patterns = [
-    //     /' OR ''='/gi,  // Matches ' OR ''='
-    //     /' OR \d+=''/gi, // Matches ' OR [number]=''
-    //     /' OR '.*'='.*'/gi, // Matches ' OR '[any_string]'='[any_string]'
-    // ];
     const patterns = [
         /' OR ''='/gi,  // Matches ' OR ''='
         /' OR \d+=''/gi, // Matches ' OR [number]=''
         /' OR '.*?'='.*?'/gi, // Matches ' OR '[any_string]'='[any_string]', using non-greedy matching
+        /' OR '[^']*'='[^']*/gi, // Matches ' OR '[any_characters_except_single_quote]'='[any_characters_except_single_quote]
         /' OR '[^']*'='[^']*'/gi, // Matches ' OR '[any_characters_except_single_quote]'='[any_characters_except_single_quote]'
     ];
   
@@ -32,7 +25,7 @@ function sanitizeInput(input) {
     });
   
     // Remove important SQL keywords, case-insensitively
-    const keywords = ['select', 'drop', 'insert', 'delete', 'update', 'union', 'join'];
+    const keywords = ['select', 'drop', 'insert', 'delete', 'union', 'join', 'and'];
     keywords.forEach(keyword => {
         const regex = new RegExp('\\b' + keyword + '\\b', 'gi');
         if (regex.test(sanitized)) {
