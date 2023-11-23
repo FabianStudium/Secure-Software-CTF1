@@ -27,7 +27,8 @@ db.run(`CREATE TABLE users (
     const dummyUsers = [
         { username: 'Alice', password: '9Ey?b#HXek&CT@q', email: 'alice@fh-campus.com'},
         { username: 'Bob', password: 'x5LGJLfyKo)HeML', email: 'bob@fh-campus.com' },
-        { username: 'Admin', password: '123', email: 'secretadmin@fh-campus.com' }
+        { username: 'Admin', password: '123', email: 'secretadmin@fh-campus.com' },
+        { username: 'Flag', password: '7Rt@oFtxiSx95FJ', email: 'CTF{pentesting_is_fun!}' }
     ];
 
     dummyUsers.forEach(user => {
