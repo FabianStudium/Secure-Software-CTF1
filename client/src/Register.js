@@ -9,7 +9,7 @@ function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/register', { username, password, email });
+      const response = await axios.post('http://backend:3000/register', { username, password, email });
       console.log(response.data);
       window.location.href = '/home';
       // Handle response or redirect

@@ -11,7 +11,7 @@ function Login() {
 		event.preventDefault();
 		setErrorMessage(''); // Clear any existing error messages
 		try {
-			const response = await axios.post('http://localhost:3000/login', { login, password });
+			const response = await axios.post('http://backend:3000/login', { login, password });
 	
 			if (response.data.username) {
 				localStorage.setItem('username', response.data.username);

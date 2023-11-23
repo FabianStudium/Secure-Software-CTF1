@@ -13,6 +13,7 @@ const saltRounds = 10; // Number of salt rounds for bcrypt
 const corsOptions = {
     origin: 'http://localhost:3001', // or your frontend's origin
     origin: 'http://127.0.0.1:3001', // or your frontend's origin
+    origin: 'http://frontend:3001', // or your frontend's origin
     optionsSuccessStatus: 200
 };
 
