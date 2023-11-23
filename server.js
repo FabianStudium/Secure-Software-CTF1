@@ -11,9 +11,7 @@ const saltRounds = 10; // Number of salt rounds for bcrypt
 
 // CORS configuration
 const corsOptions = {
-    origin: 'http://localhost:3001', // or your frontend's origin
-    origin: 'http://127.0.0.1:3001', // or your frontend's origin
-    origin: 'http://frontend:3001', // or your frontend's origin
+    origin: ['http://frontend:3001', 'http://localhost:3001', 'http://127.0.0.1:3001'], // or your frontend's origin
     optionsSuccessStatus: 200
 };
 
@@ -90,7 +88,7 @@ app.post('/login', (req, res) => {
 
                     if (newAttempts >= 5) {
                         // Lock account and send error message
-                        res.status(401).send({ message: 'Account locked. Please contact admin at admin@example.com', username: user.username });
+                        res.status(401).send({ message: 'Account locked. Please contact admin at secretadmin@fh-campus.com', username: user.username });
                     } else {
                         // Send regular error message
                         res.status(401).send({ message: 'Invalid credentials. Please try again.' });

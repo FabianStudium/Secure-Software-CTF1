@@ -11,8 +11,8 @@ function Login() {
 		event.preventDefault();
 		setErrorMessage(''); // Clear any existing error messages
 		try {
-			// const response = await axios.post('http://backend:3000/login', { login, password });
-			const response = await axios.post('http://localhost:3000/login', { login, password });
+			const response = await axios.post('http://backend:3000/login', { login, password });
+			// const response = await axios.post('http://localhost:3000/login', { login, password });
 	
 			if (response.data.username) {
 				localStorage.setItem('username', response.data.username);
@@ -24,11 +24,9 @@ function Login() {
 		} catch (error) {
 			if (error.response) {
 				// Set the error message from the server
-				console.log("2")
 				setErrorMessage(error.response.data.message);
 			} else {
 				// Set a generic error message
-				console.log("3")
 				setErrorMessage('An error occurred. Please try again.');
 			}
 		}
