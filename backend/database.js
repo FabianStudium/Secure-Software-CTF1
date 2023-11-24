@@ -18,6 +18,7 @@ db.run(`CREATE TABLE users (
     email TEXT,
     failed_attempts INTEGER DEFAULT 0
 )`, (err) => {
+    
     if (err) {
         return console.error(err.message);
     }
@@ -25,10 +26,18 @@ db.run(`CREATE TABLE users (
 
     // Insert dummy users
     const dummyUsers = [
-        { username: 'Alice', password: '9Ey?b#HXek&CT@q', email: 'alice@fh-campus.com'},
+        { username: 'Alice', password: '9Ey?b#HXek&CT@q', email: 'alice@fh-campus.com' },
         { username: 'Bob', password: 'x5LGJLfyKo)HeML', email: 'bob@fh-campus.com' },
-        { username: 'Admin', password: '123', email: 'secretadmin@fh-campus.com' },
-        { username: 'Flag', password: '7Rt@oFtxiSx95FJ', email: 'CTF{pentesting_is_fun!}' }
+        { username: 'Admin', password: 'g4iyAMxj9Ye#TGr', email: 'secretadmin@fh-campus.com' },
+        { username: 'Flag', password: '7Rt@oFtxiSx95FJ', email: 'CTF{1nf0_l34k_n_1nj3cT_h4x0r!}' },
+        { username: 'Charlie', password: 'p4sSw0rd!2345', email: 'charlie@fh-campus.com' },
+        { username: 'David', password: 'david1234Pass', email: 'david@fh-campus.com' },
+        { username: 'Eve', password: 'eve!@#Secure', email: 'eve@fh-campus.com' },
+        { username: 'Frank', password: 'frankPassword!9', email: 'frank@fh-campus.com' },
+        { username: 'Grace', password: 'gracePass123!', email: 'grace@fh-campus.com' },
+        { username: 'Hannah', password: 'hannahSecur3!', email: 'hannah@fh-campus.com' },
+        { username: 'Ivy', password: 'IvyP@ssw0rd!', email: 'ivy@fh-campus.com' },
+        { username: 'John', password: 'johnDoe!@#$', email: 'john@fh-campus.com' }
     ];
 
     dummyUsers.forEach(user => {
