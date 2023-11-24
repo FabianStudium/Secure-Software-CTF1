@@ -1,13 +1,11 @@
 const express = require('express');
 const cors = require('cors')
-const bcrypt = require('bcrypt');
 
 const db = require('./backend/database');
 const sanitizeInput = require('./backend/utils/sanitize')
 
 const app = express();
 const port = 3000;
-const saltRounds = 10; // Number of salt rounds for bcrypt
 
 // CORS configuration
 const corsOptions = {

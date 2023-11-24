@@ -18,7 +18,6 @@ function Login() {
 				setErrorMessage(response.data.message);
 				
 				console.log(`User logged in as ${response.data.username}`);
-				window.location.href = '/home';
 			}
 		} catch (error) {
 			if (error.response) {

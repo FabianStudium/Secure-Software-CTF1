@@ -6,8 +6,6 @@ function Logout() {
             console.log(response.data.message);
             // Clear username from local storage
             localStorage.removeItem('username');
-            // Redirect to login page or home page
-            window.location.href = '/login';
         })
         .catch(error => {
             console.error('Logout failed:', error);

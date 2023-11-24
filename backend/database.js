@@ -1,6 +1,4 @@
 const sqlite3 = require('sqlite3').verbose();
-const bcrypt = require('bcrypt');
-const saltRounds = 10; // Number of salt rounds for bcrypt
 
 // Connect to SQLite database
 const db = new sqlite3.Database(':memory:', (err) => {
