@@ -27,7 +27,7 @@ const initDb = async () => {
         const dummyUsers = [
             { username: 'Alice', password: '9Ey?b#HXek&CT@q', email: 'alice@fh-campus.com' },
             { username: 'Bob', password: 'x5LGJLfyKo)HeML', email: 'bob@fh-campus.com' },
-            { username: 'Admin', password: 'g4iyAMxj9Ye#TGr', email: 'secretadmin@fh-campus.com' },
+            { username: 'UnguessableAdminAccount', password: 'g4iyAMxj9Ye#TGr', email: 'secretadmin@fh-campus.com' },
             { username: 'Flag', password: '7Rt@oFtxiSx95FJ', email: 'CTF{1nf0_l34k_n_1nj3cT_h4x0r!}' },
             { username: 'Charlie', password: 'p4sSw0rd!2345', email: 'charlie@fh-campus.com' },
             { username: 'David', password: 'david1234Pass', email: 'david@fh-campus.com' },
