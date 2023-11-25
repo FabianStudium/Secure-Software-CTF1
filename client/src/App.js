@@ -10,7 +10,7 @@ import './App.css'
 function App() {
 	const [currentPage, setCurrentPage] = useState('home');
 	// const isAdmin = localStorage.getItem('username') === 'AliceAdminAccount';
-	const isLoggedIn = localStorage.getItem('username') !== undefined;
+	const isLoggedIn = localStorage.getItem('username') != undefined;
 	const isAdmin = localStorage.getItem('username') === 'Admin';
 
 	return (
