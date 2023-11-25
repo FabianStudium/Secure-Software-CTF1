@@ -5,28 +5,29 @@ import Login from './Login';
 import Logout from './Logout';
 import Home from './Home';
 import AdminPanel from './AdminPanel';
+import './App.css'
 
 function App() {
 	const [currentPage, setCurrentPage] = useState('home');
 	// const isAdmin = localStorage.getItem('username') === 'AliceAdminAccount';
-	const isLoggedIn = localStorage.getItem('username') != undefined;
+	const isLoggedIn = localStorage.getItem('username') !== undefined;
 	const isAdmin = localStorage.getItem('username') === 'Admin';
 
 	return (
 		<div>
 			{isLoggedIn && (
-				<nav>
+				<nav className='navbar'>
 					<button onClick={() => setCurrentPage('home')}>Home</button>
 					<button onClick={() => setCurrentPage('logout')}>Logout</button>
 					<button onClick={() => setCurrentPage('admin')}>Admin Panel</button>
 				</nav>
 			)}
 			{!isLoggedIn && (
-				<nav>
-					<button onClick={() => setCurrentPage('home')}>Home</button>
-					<button onClick={() => setCurrentPage('register')}>Register</button>
-					<button onClick={() => setCurrentPage('login')}>Login</button>
-					<button onClick={() => setCurrentPage('admin')}>Admin Panel</button>
+				<nav className='navbar'>
+					<button className='navbar-button' onClick={() => setCurrentPage('home')}>Home</button>
+					<button className='navbar-button' onClick={() => setCurrentPage('register')}>Register</button>
+					<button className='navbar-button' onClick={() => setCurrentPage('login')}>Login</button>
+					<button className='navbar-button' onClick={() => setCurrentPage('admin')}>Admin Panel</button>
 				</nav>
 			)}
 			{/* <nav>

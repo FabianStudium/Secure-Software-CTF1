@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import './LoginRegister.css'
 
 function Login() {
 	const [login, setLogin] = useState("");
@@ -31,23 +32,25 @@ function Login() {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
-		<input
-			type="text"
-			value={login}
-			onChange={(e) => setLogin(e.target.value)}
-			placeholder="Username or Email"
-		/>
-		{/* <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" /> */}
-		<input
-			type="password"
-			value={password}
-			onChange={(e) => setPassword(e.target.value)}
-			placeholder="Password"
-		/>
-		<button type="submit">Login</button>
-		{errorMessage && <div className="error-message">{errorMessage}</div>}
-		</form>
+		<div className="form-container">
+			<form onSubmit={handleSubmit}>
+			<input
+				type="text"
+				value={login}
+				onChange={(e) => setLogin(e.target.value)}
+				placeholder="Username or Email"
+			/>
+			{/* <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" /> */}
+			<input
+				type="password"
+				value={password}
+				onChange={(e) => setPassword(e.target.value)}
+				placeholder="Password"
+			/>
+			<button type="submit">Login</button>
+			{errorMessage && <div className="error-message">{errorMessage}</div>}
+			</form>
+		</div>
 	);
 }
 

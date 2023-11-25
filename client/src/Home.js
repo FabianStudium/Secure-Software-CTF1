@@ -1,11 +1,11 @@
 import React from 'react';
+import './Home.css'
 
 function Home() {
   return (
-    <div>
+    <div className='home-container'>
       <h1>Home</h1>
-      <p>This is a dummy home.</p>
-      // ... any additional content
+      <p>You have successfully exploited this application when you found the flag.</p>
     </div>
   );
 }

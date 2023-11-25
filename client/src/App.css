@@ -36,3 +36,42 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar {
+  background-color: #333333;
+  color: white;
+  padding: 10px 20px;
+  margin-bottom: 2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar a {
+  color: white;
+  padding: 0 15px;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+.navbar button{
+  background-color: #b0b0b1; /* Blue background */
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 10px 15px;
+  margin-left: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navbar button:hover {
+  background-color: #dfdfdf; /* Darker blue on hover */
+}
+
+.navbar button:active {
+  background-color: rgb(236, 236, 236); /* Even darker blue when active */
+}

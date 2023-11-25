@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './AdminPanel.css'
 
 function AdminPanel() {
 	const [users, setUsers] = useState([]);
@@ -27,31 +28,31 @@ function AdminPanel() {
 	};
 
 	return (
-		<div>
-		<h1>Admin Panel</h1>
-		<p>Welcome, Admin!</p>
-		<table>
-			<thead>
-			<tr>
-				<th>Username</th>
-				<th>Email</th>
-				<th>Actions</th>
-			</tr>
-			</thead>
-			<tbody>
-			{users.map(user => (
-				<tr key={user.id}>
-				<td>{user.username}</td>
-				<td>{user.email}</td>
-				<td>
-					{/* Buttons for edit and delete actions */}
-					<button onClick={() => console.log("To be developed.")}>Edit</button>
-					<button onClick={() => handleDelete(user.id)}>Delete</button>
-				</td>
+		<div className='admin-panel'>
+			<h1>Admin Panel</h1>
+			<p>Welcome, Admin!</p>
+			<table className='admin-table'>
+				<thead>
+				<tr>
+					<th>Username</th>
+					<th>Email</th>
+					<th>Actions</th>
 				</tr>
-			))}
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+				{users.map(user => (
+					<tr key={user.id}>
+					<td>{user.username}</td>
+					<td>{user.email}</td>
+					<td>
+						{/* Buttons for edit and delete actions */}
+						<button onClick={() => console.log("To be developed.")}>Edit</button>
+						<button onClick={() => handleDelete(user.id)}>Delete</button>
+					</td>
+					</tr>
+				))}
+				</tbody>
+			</table>
 		</div>
 	);
 }
