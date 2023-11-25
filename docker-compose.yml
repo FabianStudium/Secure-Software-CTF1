@@ -1,11 +1,13 @@
 version: '3'
 services:
   backend:
-    build: .
+    image: fabianstudium/ctf_app-backend
+    # build: .
     ports:
       - "3000:3000"
   frontend:
-    build: ./client
+    image: fabianstudium/ctf_app-frontend
+    # build: ./client
     ports:
       - "3001:80"
   mariadb:
