@@ -14,50 +14,38 @@ This application is designed for educational purposes, providing a hands-on expe
 
 * Frontend: React.js
 * Backend: Node.js with Express.js
-* Setup Instructions
+* Database: MariaDB
 
-## Local Setup
+## Application Setup
 
-Clone the Repository
+You can run the application using Docker Compose. This setup includes the backend, frontend, and a MariaDB database. Here are the steps:
 
-```sh
-=git clone https://github.com/FabianStudium/Secure-Software-CTF1.git
-cd Secure-Software-CTF1
-```
+1. **Clone the Repository:**
 
-Install Dependencies
+   ```sh
+   git clone https://github.com/FabianStudium/Secure-Software-CTF1.git
+   cd Secure-Software-CTF1
+   ```
 
-```sh
-npm install
-```
+2. **Run Docker Compose**
 
-Start the Backend Server
+    ```sh
+    docker-compose up
+    ```
 
-```sh
-node server.js
-```
+This will start three containers:
 
-Start the Frontend Application
+* backend: The Node.js backend server, accessible at <http://localhost:3000>.
+* frontend: The React.js frontend application, accessible at <http://localhost:3001>.
+* mariadb: A MariaDB database instance.
 
-```sh
-Copy code
-npm start
-```
-
-## Docker Setup
-
-Alternatively, you can build and run the application using Docker:
-
-```sh
-docker build -t secure-software-ctf1 .
-docker run -p 80:80 secure-software-ctf1
-```
+The database is configured with a root password AdminPassword123 and a database named mariadb.
 
 ## Educational Objectives
 
 * Understanding Information Leakage: Learn how repeated failed login attempts can lead to information leakage and how this can be exploited.
-* SQL Injection: Practice identifying and exploiting SQL injection vulnerabilities in a web application.
-* Find the Flag in this format `CTF{<hacker-text>}`.
+* SQL Injection: Learn to identify and exploit SQL injection vulnerabilities. The application now uses MariaDB, which allows multiple query executions.
+* Find the Flag in this format `CTF{some_text}`.
 
 ## Disclaimer
 
