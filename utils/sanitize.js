@@ -25,7 +25,7 @@ function sanitizeInput(input) {
     });
   
     // Remove important SQL keywords, case-insensitively
-    const keywords = ['select', 'drop', 'insert', 'delete', 'union', 'join', 'and'];
+    const keywords = ['select', 'drop', 'insert', 'delete', 'union', 'join', 'and', 'or'];
     keywords.forEach(keyword => {
         const regex = new RegExp('\\b' + keyword + '\\b', 'gi');
         if (regex.test(sanitized)) {

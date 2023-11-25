@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors')
 
-const db = require('./backend/database');
-const sanitizeInput = require('./backend/utils/sanitize')
+const db = require('./database');
+const sanitizeInput = require('./utils/sanitize')
 
 const app = express();
 const port = 3000;
@@ -20,23 +20,21 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
     const { username, password, email } = req.body;
     const query = `INSERT INTO users (username, password, email) VALUES (?, ?, ?);`;
-    db.run(query, [username, password, email], function(err) {
-        if (err) {
-            res.status(400).send('Error in registration');
-        } else {
-            res.status(201).send(`User created with ID: ${this.lastID}`);
-        }
-    });
+    try {
+        const result = await db.query(query, [username, password, email]);
+        res.status(201).send({ message: `User created with ID: ${result.insertId}` });
+    } catch (err) {
+        res.status(400).send('Error in registration');
+    }
 });
 
 /*
     TODO for Developer: we recently started using prepared statements for DB access. Please double-check if we found everything
 */
-
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     const { login, password } = req.body;
     const { sanitized: sanitizedLogin, errorMessages: loginErrors } = sanitizeInput(login);
     const { sanitized: sanitizedPassword, errorMessages: passwordErrors } = sanitizeInput(password);
@@ -62,42 +60,38 @@ app.post('/login', (req, res) => {
         });
     }
 
-    // Securely check if the user exists and get their failed_attempts count
-    const userQuery = `SELECT id, username, password, failed_attempts FROM users WHERE username = ? OR email = ?`;
-    db.get(userQuery, [sanitizedLogin, sanitizedLogin], (err, user) => {
-        if (err) {
-            return res.status(500).send({ message: 'Error during login process', error: err.message });
-        } else if (user) {
-            // User exists, now perform a vulnerable password check
-            const passwordQuery = `SELECT * FROM users WHERE id=${user.id} AND password = '${sanitizedPassword}'`;
-            db.get(passwordQuery, [], (passwordErr, passwordRow) => {
-                if (passwordRow) {
-                    // Successful login
-                    const resetAttemptsQuery = `UPDATE users SET failed_attempts = 0 WHERE id = ?`;
-                    db.run(resetAttemptsQuery, [user.id]);
-                    res.status(200).send({ message: 'Login successful.', username: user.username });
+    try {
+        const userQuery = `SELECT id, username, failed_attempts FROM users WHERE username = ? OR email = ?`;
+        const userRow = await db.query(userQuery, [sanitizedLogin, sanitizedLogin]);
+
+        if (userRow.length > 0) {
+            // Intentionally vulnerable SQL query
+            const passwordQuery = `SELECT * FROM users WHERE id=${userRow[0].id} AND password = '${password}'`;
+            const passwordRow = await db.query(passwordQuery);
+
+            if (passwordRow.length > 0) {
+                // Successful login
+                const resetAttemptsQuery = `UPDATE users SET failed_attempts = 0 WHERE id = ?`;
+                await db.query(resetAttemptsQuery, [userRow[0].id]);
+                res.status(200).send({ message: 'Login successful.', username: userRow[0].username });
+            } else {
+                // Failed login, increment failed_attempts
+                let newAttempts = (userRow[0].failed_attempts || 0) + 1;
+                const updateAttemptsQuery = `UPDATE users SET failed_attempts = ? WHERE id = ?`;
+                await db.query(updateAttemptsQuery, [newAttempts, userRow[0].id]);
+
+                if (newAttempts >= 5) {
+                    res.status(401).send({ message: 'Account locked. Please contact admin at secretadmin@fh-campus.com', username: userRow[0].username });
                 } else {
-                    // Failed login, increment failed_attempts
-                    let newAttempts = (user.failed_attempts || 0) + 1;
-                    const updateAttemptsQuery = `UPDATE users SET failed_attempts = ? WHERE id = ?`;
-                    db.run(updateAttemptsQuery, [newAttempts, user.id]);
-
-                    console.log(`Failed Login attempts for ${user.username}: ${user.failed_attempts}.`)
-
-                    if (newAttempts >= 5) {
-                        // Lock account and send error message
-                        res.status(401).send({ message: 'Account locked. Please contact admin at secretadmin@fh-campus.com', username: user.username });
-                    } else {
-                        // Send regular error message
-                        res.status(401).send({ message: 'Invalid credentials. Please try again.' });
-                    }
+                    res.status(401).send({ message: 'Invalid credentials. Please try again.' });
                 }
-            });
+            }
         } else {
-            // User does not exist
             res.status(401).send({ message: 'Invalid credentials. User not found.' });
         }
-    });
+    } catch (err) {
+        res.status(500).send({ message: 'Error during login process', error: err.message });
+    }
 });
 
 app.post('/logout', (req, res) => {  
@@ -105,13 +99,14 @@ app.post('/logout', (req, res) => {
     res.status(200).send({ message: 'Logout successful.' });
 });
 
-app.get('/users', (req, res) => {
+app.get('/users', async (req, res) => {
     /* 
         TODO for Developer: Check if user is admin!
     */
 
     const query = 'SELECT id, username, email FROM users';
 
+    /*
     db.all(query, [], (err, rows) => {
         if (err) {
             res.status(500).send({ message: 'Error fetching users', error: err.message });
@@ -119,9 +114,17 @@ app.get('/users', (req, res) => {
             res.status(200).json(rows);
         }
     });
+    */
+
+    try {
+        const result = await db.query(query);
+        res.status(201).json(result);
+    } catch (err) {
+        res.status(400).send({ message: 'Error fetching users', error: err.message });
+    }
 });
 
-app.delete('/users/:id', (req, res) => {
+app.delete('/users/:id', async (req, res) => {
     /* 
         TODO for Developer: Check if user is admin!
     */
@@ -129,6 +132,7 @@ app.delete('/users/:id', (req, res) => {
     const { id } = req.params;
     const query = 'DELETE FROM users WHERE id = ?';
 
+    /*
     db.run(query, [id], (err) => {
         if (err) {
             res.status(500).send({ message: 'Error deleting user', error: err.message });
@@ -136,6 +140,14 @@ app.delete('/users/:id', (req, res) => {
             res.status(200).send({ message: 'User deleted successfully' });
         }
     });
+    */
+
+    try {
+        const result = await db.query(query, id);
+        res.status(201).send({ message: `User deleted with ID: ${id}` });
+    } catch (err) {
+        res.status(400).send({ message: 'Error deleting user', error: err.message });
+    }
 });
 
 
